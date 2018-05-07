@@ -1,3 +1,5 @@
+"""This finds which SNPs are in which sequences, given coordinates for the SNPs and the start/end of the sequences"""
+
 import random
 from decimal import getcontext, Decimal
 
