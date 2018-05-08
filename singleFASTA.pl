@@ -1,22 +1,15 @@
 #!/usr/bin/perl
-# author, date
+# Chad Fautt, 5/7/18
 
 # library section
 use strict;
-#use warnings FATAL => 'all';
+use warnings FATAL => 'all';
+use lib '.';
 use MCB198;
-use POSIX;
 
 # usage statement and command line processing
-die "usage: $0 <seqNum> <seqMin> <seqMax>\n" unless @ARGV == 3;
-my ($seqNum, $seqMin, $seqMax) = @ARGV;
+die "usage: $0 <seqLen> \n" unless @ARGV == 1;
+my ($seqLen) = @ARGV;
 
 # main part of program
-my $
-for (my $i = 0; $i < $segNum; $i++){
-	my $len = floor(rand($seqMax) - rand($seqMax-$seqMin);
-	my ($oneFASTA) = MCB198::create_fasta($len);
-}
-
-
-
+print MCB198::create_fasta($seqLen);

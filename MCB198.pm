@@ -37,20 +37,19 @@ sub read_multi_fasta {
 	return %seq;
 }
 
-
+#creates a random fasta sequence of a given length. really useless.
 sub create_fasta {
 	my ($seqLength) = @_;
 	my $FASTA = ">RandomSeq Why would you want this\n";
 	my $sequence = "";
 	my @bases = qw(a c t g);
 	while (length($sequence) < $seqLength){
-		my $BaseIndex = floor(rand(4));
+		my $BaseIndex = int(rand(4));
 		$sequence.= $bases[$BaseIndex];
-		if (length($sequence) % 50 == 0){
+		if (length($sequence) % 50 == 0 || length($sequence) == $seqLength) {
 			$sequence.= "\n";
 		}
 	}
-	$sequence.= "\n";
 	$FASTA.=$sequence;
 	return $FASTA;
 }
