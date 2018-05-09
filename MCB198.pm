@@ -51,7 +51,38 @@ sub create_fasta {
 		}
 	}
 	$FASTA.=$sequence;
+
 	return $FASTA;
+}
+
+# returns log base 2 of given number
+sub log2 {
+	my $n = shift;
+	return log($n)/log(2);
+}
+
+sub entropy {
+	my ($seq) = @_;
+	$seq = uc($seq);
+
+	#transliterate returns count of characters
+	my $G = $seq =~ tr/G//;
+	my $C = $seq =~ tr/C//;
+	my $A = $seq =~ tr/A//;
+	my $T = $seq =~ tr/T//;
+
+	#calculate individiual NT frequencies
+	my $G_cont = $G/length($seq);
+	my $C_cont = $C/length($seq);
+	my $A_cont = $A/length($seq);
+	my $T_cont = $T/length($seq);
+
+	my $H = 0;
+	$H += $G_cont * MCB198::log2($G_cont) unless $G_cont == 0;
+	$H += $C_cont * MCB198::log2($C_cont) unless $C_cont == 0;
+	$H += $A_cont * MCB198::log2($A_cont) unless $A_cont == 0;
+	$H += $T_cont * MCB198::log2($T_cont) unless $T_cont == 0;
+	return ($H * -1);
 }
 
 1;

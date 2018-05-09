@@ -1,7 +1,7 @@
 import random
 from decimal import getcontext, Decimal
 
-"""This finds which of (queries) are at least partially in each of (seqs),
+"""This finds which (queries) are at least partially in each of (seqs),
 given start & end coordinates of the sequences and queries."""
 
 #fill both query database and seqs with random (chr,coord,coord) entries.... FOR TESTING PURPOSES ONLY
@@ -70,6 +70,6 @@ for i in chr:
                 #only add if I haven't already associated it
                 if queries[queryHash[j]] not in staging[seq]:
                     staging[seq].append(queries[queryHash[j]])
-                    
+
 for i in matches:
     print(f"sequence {i}: {len(matches[i])} hit(s) -> {matches[i]}")
