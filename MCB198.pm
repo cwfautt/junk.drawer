@@ -37,6 +37,24 @@ sub read_multi_fasta {
 	return %seq;
 }
 
+sub read_clustal {
+	my ($file) = @_;
+	
+	open(my $fh, $file) or die "$file not found";
+	
+	# read sequences lines, remove newline, add to $seq variable
+	my $seqs;
+	my @array1;
+	while (my $line = <$fh>) {
+		chomp $line;
+		my @seq = split ' ', $line;
+		if (scalar(@seq) == 2){
+			push(@array1, lc($seq[1]));
+		}
+	}
+	return @array1;
+}
+
 #creates a random fasta sequence of a given length. really useless.
 sub create_fasta {
 	my ($seqLength) = @_;
@@ -83,6 +101,40 @@ sub entropy {
 	$H += $A_cont * MCB198::log2($A_cont) unless $A_cont == 0;
 	$H += $T_cont * MCB198::log2($T_cont) unless $T_cont == 0;
 	return ($H * -1);
+}
+
+#given hash of nucleotide frequencies at given NT position, returns array of nucleotides needed to reach threshold proportion needed for IUPAC ambigous NT code assignment. 
+sub consensus_NT {
+	my ($threshold, %NTcount) = @_;
+
+	keys %NTcount; 
+    my @large_keys;
+    ($large_keys[0], my $large_value) = each %NTcount;
+	my $total = $large_value;
+    while (my ($key, $val) = each %NTcount) {
+        if ($val > $large_value) {
+            $large_value = $val;
+			$total = $val;
+            @large_keys = ($key);
+        } elsif (abs($val - $large_value) < 0.00001){
+            push(@large_keys, $key);
+			$total += $val;
+        }
+    }
+
+    foreach $NT (@large_keys){
+        delete $NTcount{$NT};
+    }
+
+	#recursively add next largest NT to array until threshold is met 
+	if ($total < $threshold ){
+		my @temp = consensus_NT($threshold-$total, %NTcount);
+		foreach $NT (@temp){
+			push(@large_keys, $NT);
+		}
+	} 
+
+	return @large_keys;
 }
 
 1;
