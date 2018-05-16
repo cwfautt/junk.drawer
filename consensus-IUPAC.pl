@@ -20,7 +20,7 @@ my ($file, $threshold) = @ARGV; #threshold between 0-1.
 
 my @aligned = MCB198::read_clustal($file);
 
-my $consensus;
+my $consensus = "";
 for (my $i = 0; $i < length($aligned[0]); $i++){
 
     #tally the presence of each nucleotide at position $i
@@ -59,5 +59,7 @@ for (my $i = 0; $i < length($aligned[0]); $i++){
         if (!('a' ~~ @nucs)) { $consensus .= 'B' }
     }
     elsif (scalar(@nucs) == 4) { $consensus .= "N" }
+    elsif (scalar(@nucs) == 0) { $consensus .= "-" }
 }
-print($consensus);
+
+print($consensus, "\n");

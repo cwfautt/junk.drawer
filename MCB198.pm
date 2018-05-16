@@ -127,7 +127,7 @@ sub consensus_NT {
     }
 
 	#recursively add next largest NT to array until threshold is met 
-	if ($total < $threshold ){
+	if ($total < $threshold){
 		my @temp = consensus_NT($threshold-$total, %NTcount);
 		foreach $NT (@temp){
 			push(@large_keys, $NT);
